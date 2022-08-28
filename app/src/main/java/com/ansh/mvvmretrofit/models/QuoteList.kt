@@ -1,5 +1,8 @@
 package com.ansh.mvvmretrofit.models
 
+import androidx.room.Entity
+
+
 data class QuoteList(
     val count: Int,
     val lastItemIndex: Int,

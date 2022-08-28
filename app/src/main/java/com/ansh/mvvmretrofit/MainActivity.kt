@@ -20,26 +20,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val quotesService = RetrofitHelper.getInstance().create(QuotesService::class.java)
-        val repository = QuotesRepo(quotesService)
+        val repo = (application as QuoteApplication).quotesRepo
 
 
-        mainViewModel = ViewModelProvider(this, MainViewModelFactory(repository)).get(MainViewModel::class.java)
+
+
+        mainViewModel = ViewModelProvider(this, MainViewModelFactory(repo))[MainViewModel::class.java]
 
         mainViewModel.quotes.observe(this, Observer{
             Log.d("ABCD",it.results.toString())
 
         })
 
-        val quotesApi = RetrofitHelper.getInstance().create(QuotesService::class.java)
-        GlobalScope.launch{
-            val result =  quotesApi.getQuotes(1)
-            if (result != null){
-                 val quoteList = result.body()
-                quoteList?.results?.forEach{
-                    Log.d("ABCD",it.content)
-                }
-            }
-        }
     }
 }
