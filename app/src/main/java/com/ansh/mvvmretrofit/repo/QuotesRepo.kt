@@ -23,17 +23,20 @@ class QuotesRepo(
 
         if (NetworkUtils.isNetworkAvailable(applicationContext)){
 
+            val result = quoteService.getQuotes(page)
+            if(result ?.body()!=null ){
 
+                quoteDatabase.quoteDao()
+
+                quotesLivedata.postValue(result.body())
         }else{
 
+            val quotes = quoteDatabase.quoteDao().getQuotes()
+                val quoteList =QuoteList(1,1,1,quotes,1,1)
+                quotesLivedata.postValue(quoteList)
         }
 
-        val result = quoteService.getQuotes(page)
-        if(result ?.body()!=null ){
 
-            quoteDatabase.quoteDao()     
-
-            quotesLivedata.postValue(result.body())
         }
     }
 
