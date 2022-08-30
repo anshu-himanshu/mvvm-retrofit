@@ -1,6 +1,7 @@
 package com.ansh.mvvmretrofit.worker
 
 import android.content.Context
+import android.util.Log
 import androidx.work.WorkManager
 import androidx.work.Worker
 import androidx.work.WorkerParameters
@@ -11,6 +12,7 @@ import kotlinx.coroutines.launch
 
 class QuoteWorker(private val context: Context,params: WorkerParameters): Worker(context,params) {
     override fun doWork(): Result {
+        Log.d("abcde","Worker Called")
         val repository = (context as QuoteApplication).quotesRepo
         CoroutineScope(Dispatchers.IO).launch {
             repository.getQuotesBackground()
