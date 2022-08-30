@@ -25,7 +25,7 @@ class QuoteApplication: Application() {
 
     private fun setupWorker() {
        val constraint = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
-        val workerRequest = PeriodicWorkRequest.Builder(QuoteWorker::class.java,30,TimeUnit.MINUTES)
+        val workerRequest = PeriodicWorkRequest.Builder(QuoteWorker::class.java,20,TimeUnit.MINUTES)
             .setConstraints(constraint).build()
         WorkManager.getInstance(this).enqueue(workerRequest)
     }
