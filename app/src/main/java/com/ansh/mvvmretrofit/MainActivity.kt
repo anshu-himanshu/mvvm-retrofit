@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.ansh.mvvmretrofit.api.QuotesService
 import com.ansh.mvvmretrofit.api.RetrofitHelper
 import com.ansh.mvvmretrofit.repo.QuotesRepo
+import com.ansh.mvvmretrofit.repo.Response
 import com.ansh.mvvmretrofit.vm.MainViewModel
 import com.ansh.mvvmretrofit.vm.MainViewModelFactory
 import kotlinx.coroutines.GlobalScope
@@ -29,7 +30,19 @@ class MainActivity : AppCompatActivity() {
         mainViewModel = ViewModelProvider(this, MainViewModelFactory(repo))[MainViewModel::class.java]
 
         mainViewModel.quotes.observe(this, Observer{
-            Toast.makeText(this@MainActivity, it.results.size.toString( ),Toast.LENGTH_SHORT).show()
+            when (it){
+                is Response.Loading ->{}
+                is Response.Success ->{
+                    it.data?.let{
+                        Toast.makeText(this@MainActivity, it.results.size.toString( ),Toast.LENGTH_SHORT).show()
+                    }
+
+                }
+                is Response.Error -> {
+                    Toast.makeText(this@MainActivity, it.errorMessage.toString( ),Toast.LENGTH_SHORT).show()
+                }
+            }
+
 
         })
 
